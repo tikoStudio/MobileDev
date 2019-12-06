@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
     // update score
     private void scoreBoard(){
         // calculate score of the active player
+        score = 0;
         // sand
         if(valueDice1 == valueDice2 && valueDice2 == valueDice3){
             switch(valueDice1) {
