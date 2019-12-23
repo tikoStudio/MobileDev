@@ -12,7 +12,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="250dp"
-        android:src="@drawable/tempimg" />
+        android:src="@drawable/logo" />
 
     <EditText
         android:id="@+id/player1Name"

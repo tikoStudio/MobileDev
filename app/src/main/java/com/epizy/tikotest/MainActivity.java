@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button rollAgain, endTurn;
     private CheckBox check1, check2, check3;
     private int rolls = 3, min = 1, max = 6, score = 0, stripesPlayer1 = 7, stripesPlayer2 = 7, maxStripes = 7 ,valueDice1, valueDice2, valueDice3, player1Val, player2Val;
-    private boolean firstPlayerActive = true;
+    private boolean firstPlayerActive = true, swipePlayer1 = false, swipePlayer2 = false;
     private String scoreText, linesToRemove;
 
     @Override
@@ -122,15 +122,63 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+
+        player1Lines.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeLeft() {
+                if(swipePlayer1){
+                    player1LineUpdate();
+                    swipePlayer1 = false;
+                }else{
+                    Toast.makeText(MainActivity.this, player1Name.getText() + " should win a round to swipe lines away!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            @Override
+            public void onSwipeRight() {
+                if(swipePlayer1){
+                    player1LineUpdate();
+                    swipePlayer1 = false;
+                }else{
+                    Toast.makeText(MainActivity.this, player1Name.getText() + " should win a round to swipe lines away!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        player2Lines.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeLeft() {
+                if(swipePlayer2){
+                    player2LineUpdate();
+                    swipePlayer2 = false;
+                }else{
+                    Toast.makeText(MainActivity.this, player2Name.getText() + " should win a round to swipe lines away!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            @Override
+            public void onSwipeRight() {
+                if(swipePlayer2){
+                    player2LineUpdate();
+                    swipePlayer2 = false;
+                }else{
+                    Toast.makeText(MainActivity.this, player2Name.getText() + " should win a round to swipe lines away!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
     }
 
     // roll dices
     private void rollingDices(){
-        for(int i = 0; i <= 3; i++){
+        for(int i = 0; i <= 3; i++) {
             Random r = new Random();
             int randomDiceVal = r.nextInt((max - min) + 1) + min;
 
-            if(i == 1 && check1.isChecked()){
+            if (i == 1 && check1.isChecked()) {
                 valueDice1 = randomDiceVal;
                 switch (randomDiceVal){
                     case 1:
@@ -152,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                         dice1.setBackgroundResource(R.drawable.dice6eye);
                         break;
                 }
-            } else if(i == 2 && check2.isChecked()){
+            } else if (i == 2 && check2.isChecked()) {
                 valueDice2 = randomDiceVal;
                 switch (randomDiceVal) {
                     case 1:
@@ -174,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                         dice2.setBackgroundResource(R.drawable.dice6eye);
                         break;
                 }
-            } else if (i == 3 && check3.isChecked()){
+            } else if (i == 3 && check3.isChecked()) {
                 valueDice3 = randomDiceVal;
                 switch(randomDiceVal) {
                     case 1:
@@ -332,9 +380,11 @@ public class MainActivity extends AppCompatActivity {
                     stripesPlayer1 -= 1;
                     break;
             }
-            player1LineUpdate();
+            //player1LineUpdate();
+            /*changed to swipe*/
+            swipePlayer1 = true;
             if(stripesPlayer1 > 0){
-                showWinner(player1Name.getText() + " wins this round!", "you got rid of " + linesToRemove + " line(s)");
+                showWinner(player1Name.getText() + " wins this round!", "you can swipe" + linesToRemove + " line(s)");
             }else{
                 showGameWinner(player1Name.getText() + " won the game!", "you swiped away all of your stripes first.");
             }
@@ -372,9 +422,11 @@ public class MainActivity extends AppCompatActivity {
                     stripesPlayer2 -= 1;
                     break;
             }
-            player2LineUpdate();
+            //player2LineUpdate();
+            /* changed to swipe */
+            swipePlayer2 = true;
             if(stripesPlayer2 > 0){
-                showWinner(player2Name.getText() + " wins this round!", "you got rid of " + linesToRemove + " line(s)");
+                showWinner(player2Name.getText() + " wins this round!", "you can swipe " + linesToRemove + " line(s)");
             }else{
                 showGameWinner(player2Name.getText() + " won the game!", "you swiped away all of your stripes first.");
             }
@@ -478,5 +530,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-}
 
+
+
+}
