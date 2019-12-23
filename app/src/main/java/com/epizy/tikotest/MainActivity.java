@@ -170,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
     }
 
     // roll dices
@@ -384,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
             /*changed to swipe*/
             swipePlayer1 = true;
             if(stripesPlayer1 > 0){
-                showWinner(player1Name.getText() + " wins this round!", "you can swipe" + linesToRemove + " line(s)");
+                showWinner(player1Name.getText() + " wins this round!", "you can swipe " + linesToRemove + " line(s)");
             }else{
                 showGameWinner(player1Name.getText() + " won the game!", "you swiped away all of your stripes first.");
             }
