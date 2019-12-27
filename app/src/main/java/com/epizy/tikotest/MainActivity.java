@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         rollAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                player1LineUpdate();
+                player2LineUpdate();
                 if(rolls == 3 && check1.isChecked() && check2.isChecked() && check3.isChecked()){ //check if player rolled at least once
                     rollingDices();
                     scoreBoard();

@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/neededId"/>
         <activity
             android:name=".LoginActivity"
             android:configChanges="orientation"
@@ -22,7 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"/>
+            android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:fitsSystemWindows="true"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
