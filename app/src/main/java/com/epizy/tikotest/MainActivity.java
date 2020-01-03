@@ -2,6 +2,7 @@ package com.epizy.tikotest;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox check1, check2, check3;
     private int rolls = 3, min = 1, max = 6, score = 0, stripesPlayer1 = 7, stripesPlayer2 = 7, maxStripes = 7 ,valueDice1, valueDice2, valueDice3, player1Val, player2Val;
     private boolean firstPlayerActive = true, swipePlayer1 = false, swipePlayer2 = false;
-    private String scoreText, linesToRemove;
+    private String scoreText, linesToRemove, shareWinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -359,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
                     if(stripesPlayer1 >= maxStripes){
                         // you lose
                         showGameWinner(player2Name.getText() + "won!", player1Name.getText() + " threw three monkeys before swiping away one of his lines and that makes him the big loser of the game.");
+                        shareWinner = player2Name.getText() + " won the game of pietjespak, \n you can do this too by downloading the pietjesbak app";
                     }else{
                         //you win
                         linesToRemove = "all";
@@ -392,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
                 showWinner(player1Name.getText() + " wins this round!", "you can swipe " + linesToRemove + " line(s)");
             }else{
                 showGameWinner(player1Name.getText() + " won the game!", "you swiped away all of your stripes first.");
+                shareWinner = player1Name.getText() + " won the game of pietjespak, \n you can do this too by downloading the pietjesbak app";
             }
 
         }else{
@@ -401,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
                     if(stripesPlayer2 >= maxStripes){
                         // you lose
                         showGameWinner(player1Name.getText() + "won!", player2Name.getText() + " threw three monkeys before swiping away one of his lines and that makes him the big loser of the game.");
+                        shareWinner = player1Name.getText() + " won the game of pietjespak, \n you can do this too by downloading the pietjesbak app";
                     }else{
                         //you win
                         linesToRemove = "all";
@@ -434,6 +438,7 @@ public class MainActivity extends AppCompatActivity {
                 showWinner(player2Name.getText() + " wins this round!", "you can swipe " + linesToRemove + " line(s)");
             }else{
                 showGameWinner(player2Name.getText() + " won the game!", "you swiped away all of your stripes first.");
+                shareWinner = player2Name.getText() + " won the game of pietjespak, \n you can do this too by downloading the pietjesbak app";
             }
         }
 
@@ -464,6 +469,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 // onclick close alertDialog
                 reset();
+                dialog.cancel();
+            }
+        });
+        builder.setPositiveButton("share victory", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // onclick share
+                shareSocial(shareWinner);
                 dialog.cancel();
             }
         });
@@ -536,6 +548,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void shareSocial(String textToShare) {
+        String mimeType = "text/plain";
+        String title = "Sharing my victory!";
 
-
+        ShareCompat.IntentBuilder
+                /* The from method specifies the Context from which this share is coming from */
+                .from(this)
+                .setType(mimeType)
+                .setChooserTitle(title)
+                .setText(textToShare)
+                .startChooser();
+    }
 }
