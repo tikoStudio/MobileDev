@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Button rollAgain, endTurn;
     private CheckBox check1, check2, check3;
     private int rolls = 3, min = 1, max = 6, score = 0, stripesPlayer1 = 7, stripesPlayer2 = 7, maxStripes = 7 ,valueDice1, valueDice2, valueDice3, player1Val, player2Val;
-    private boolean firstPlayerActive = true, swipePlayer1 = false, swipePlayer2 = false;
+    private boolean firstPlayerActive = true, swipePlayer1 = false, swipePlayer2 = false, gameEndPopup = false;
     private String scoreText, linesToRemove, shareWinner;
 
     @Override
@@ -465,9 +465,10 @@ public class MainActivity extends AppCompatActivity {
         builder.setCancelable(true);
         builder.setTitle(winner);
         builder.setMessage(message);
-        builder.setPositiveButton("start over", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("start over", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // onclick close alertDialog
+                gameEndPopup = true;
                 reset();
                 dialog.cancel();
             }
@@ -475,12 +476,18 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("share victory", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // onclick share
+                stripesPlayer1 = 0;
+                stripesPlayer2 = 0;
+                player1LineUpdate();
+                player2LineUpdate();
+                gameEndPopup = true;
                 shareSocial(shareWinner);
-                dialog.cancel();
             }
         });
         builder.show();
+
     }
+
 
     //reset game to play again
     public void reset() {
@@ -551,7 +558,6 @@ public class MainActivity extends AppCompatActivity {
     private void shareSocial(String textToShare) {
         String mimeType = "text/plain";
         String title = "Sharing my victory!";
-
         ShareCompat.IntentBuilder
                 /* The from method specifies the Context from which this share is coming from */
                 .from(this)
@@ -559,5 +565,17 @@ public class MainActivity extends AppCompatActivity {
                 .setChooserTitle(title)
                 .setText(textToShare)
                 .startChooser();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(gameEndPopup)
+        {
+            Intent mainIntent = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(mainIntent);
+            this.finish();
+
+        }
     }
 }
