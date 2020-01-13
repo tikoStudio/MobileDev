@@ -339,10 +339,10 @@ public class MainActivity extends AppCompatActivity {
     private void updateScore() {
         if(firstPlayerActive){
             player1Val = score;
-            player1Score.setText("score: " + score + "\n" + scoreText);
+            player1Score.setText("score: " + score);
         }else {
             player2Val = score;
-            player2Score.setText("score: " + score + "\n" + scoreText);
+            player2Score.setText("score: " + score);
         }
         score = 0;
         scoreText = "test";
@@ -556,8 +556,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void shareSocial(String textToShare) {
-        String mimeType = "text/plain";
+        String mimeType = "text/plain"; //change this to */* when you want to send text and image and image/png for png image
         String title = "Sharing my victory!";
+
         ShareCompat.IntentBuilder
                 /* The from method specifies the Context from which this share is coming from */
                 .from(this)
